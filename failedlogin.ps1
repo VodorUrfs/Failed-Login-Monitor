@@ -2,6 +2,8 @@
 $failcount = $env:FAILCOUNT
 # This will retrieve the last 24 hours worth of login failures.
 $logins = Get-EventLog -LogName security -After (Get-Date).AddHours(-24) | where-object {$_.EventID -eq 4625} | Measure
+# Alternative option for getting ID count AND content filter
+# $logins = Get-EventLog -LogName security -After (Get-Date).AddHours(-24) | where-object {$_.EventID -eq 4625 -and $_.Message -like '*failed logon*'} | Measure
 #Get count using $logins.count
 if ($logins.count -gt $failcount){
 write-host "<-Start Result->"
